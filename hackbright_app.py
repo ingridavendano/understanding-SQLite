@@ -34,14 +34,12 @@ Title: %s
 Description: %s
 Max Grade: %s""" % (row[0], row[1], row[2])
 
-def give_student_grade(student, grade):
-    query = """SELECT * FROM Projects WHERE title = ?"""
-    DB.execute(query, (title,))
-    row = DB.fetchone()
-    print """\
-Title: %s
-Description: %s
-Max Grade: %s""" % (row[0], row[1], row[2])
+def give_student_grade(github, title, grade):
+    query = """INSERT INTO Projects VALUES (?, ?, ?)"""
+    DB.execute(query, (github, title, grade))
+
+    CONN.commit()
+    print "Successfully added grade: %s" % (github)
 
 
 def connect_to_db():
