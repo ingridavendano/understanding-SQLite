@@ -34,6 +34,15 @@ Title: %s
 Description: %s
 Max Grade: %s""" % (row[0], row[1], row[2])
 
+def give_student_grade(student, grade):
+    query = """SELECT * FROM Projects WHERE title = ?"""
+    DB.execute(query, (title,))
+    row = DB.fetchone()
+    print """\
+Title: %s
+Description: %s
+Max Grade: %s""" % (row[0], row[1], row[2])
+
 
 def connect_to_db():
     global DB, CONN
@@ -58,6 +67,8 @@ def main():
         elif command == "new_project":
             description = " ".join(args[2:])
             make_new_project(args[0], args[1], description)
+        elif command == "student_grade":
+            give_student_grades(*args)
 
     CONN.close()
 
