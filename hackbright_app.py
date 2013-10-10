@@ -41,6 +41,14 @@ def give_student_grade(github, title, grade):
     CONN.commit()
     print "Successfully added grade: %s" % (github)
 
+def show_grades(github):
+    query = """SELECT * FROM Grades WHERE student_github = ?"""
+    DB.execute(query, (github,))
+    row = DB.fetchone()
+    print """\
+Github: %s
+Project Title: %s
+Grade: %s""" % (row[0], row[1], row[2])
 
 def connect_to_db():
     global DB, CONN
@@ -67,6 +75,8 @@ def main():
             make_new_project(args[0], args[1], description)
         elif command == "student_grade":
             give_student_grades(*args)
+        elif command == "show_grades":
+            show_grades(*args)
 
     CONN.close()
 
