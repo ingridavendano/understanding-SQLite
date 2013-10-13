@@ -13,9 +13,11 @@ def get_student():
     student_github = request.args.get("github")
     row = hackbright_app.get_student_by_github(student_github)
     grades_str = hackbright_app.get_all_grades(row[2])
+
     html = render_template("student_info.html", first_name=row[0],
                                                 last_name=row[1],
-                                                github=row[2], grades = grades_str)
+                                                github=row[2], 
+                                                grades = grades_str)
     return html
 
 if __name__ == "__main__":

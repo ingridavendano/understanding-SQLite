@@ -3,6 +3,7 @@ import sqlite3
 DB = None
 CONN = None
 
+
 def make_new_student(first_name, last_name, github):
     query = """INSERT INTO Students VALUES (?, ?, ?)"""
     DB.execute(query, (first_name, last_name, github))
@@ -10,12 +11,14 @@ def make_new_student(first_name, last_name, github):
     CONN.commit()
     print "Successfully added student: %s %s" % (first_name, last_name)
 
+
 def make_new_project(title, max_grade, description):
     query = """INSERT INTO Projects VALUES (?, ?, ?)"""
     DB.execute(query, (title, description, max_grade))
 
     CONN.commit()
     print "Successfully added project: %s" % (title)
+
 
 def get_student_by_github(github):
     print github
@@ -25,6 +28,7 @@ def get_student_by_github(github):
     print row
     return row
     
+
 def get_project_title(title):
     query = """SELECT * FROM Projects WHERE title = ?"""
     DB.execute(query, (title,))
@@ -34,6 +38,7 @@ Title: %s
 Description: %s
 Max Grade: %s""" % (row[0], row[1], row[2])
 
+
 def get_project_grade(student, project):
     query = """SELECT * FROM Grades WHERE student_github = ? AND project_title = ?"""
     DB.execute(query, (student, project,))
@@ -42,6 +47,7 @@ def get_project_grade(student, project):
     Title: %s
     Grade: %s
     """ % (row[1], row[2])
+
 
 def give_student_grade(student, title, grade):
     query = """SELECT * FROM Grades WHERE student_github = ? AND project_title = ?"""
@@ -53,21 +59,26 @@ def give_student_grade(student, title, grade):
         CONN.commit()
         print "Successfully added grade to: %s" % (grade)
 
+
 def get_all_grades(student):
     query = """SELECT project_title, grade FROM Grades WHERE student_github = ?"""
     DB.execute(query, (student,))
+
+    # fetch ALL grabs all the 
     projects_grades = DB.fetchall()
-    projects_grades_str = ""
-    # string_list = []
-    for x in projects_grades:
-        projects_grades_str += str(x[0]) + ": " + str(x[1]) +"\n"
-        # string_list.append
-    return projects_grades_str
+    # projects_grades_str = ""
+
+    # for x in projects_grades:
+    #     projects_grades_str += str(x[0]) + ": " + str(x[1]) +"\n"
+    #     # string_list.append
+    return projects_grades
+
 
 def connect_to_db():
     global DB, CONN
     CONN = sqlite3.connect("hackbright.db")
     DB = CONN.cursor()
+
 
 def main():
     connect_to_db()
@@ -95,6 +106,7 @@ def main():
             get_all_grades(*args)
 
     CONN.close()
+
 
 if __name__ == "__main__":
     main()
