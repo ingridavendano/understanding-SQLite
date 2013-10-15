@@ -1,0 +1,9 @@
+<html>
+<body>
+	{% for info in project %}
+		<p> <a href="/student?github={{info[0]}}">{{info[0]}}</a> | {{info[1]}} | {{info[2]}} </p>
+	{% endfor %}
+
+	
+</body>
+</html>
