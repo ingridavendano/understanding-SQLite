@@ -9,7 +9,6 @@ def make_new_student(first_name, last_name, github):
     DB.execute(query, (first_name, last_name, github))
 
     CONN.commit()
-    print "Successfully added student: %s %s" % (first_name, last_name)
 
 
 def make_new_project(title, max_grade, description):
@@ -30,13 +29,21 @@ def get_student_by_github(github):
     
 
 def get_project_title(title):
+    query = """SELECT * FROM Grades WHERE project_title = ?"""
+    DB.execute(query, (title,))
+#     row = DB.fetchone()
+#     print """\
+# Title: %s
+# Description: %s
+# Max Grade: %s""" % (row[0], row[1], row[2])
+    project_info = DB.fetchall()
+    return project_info
+
+def get_project_info(title):
     query = """SELECT * FROM Projects WHERE title = ?"""
     DB.execute(query, (title,))
-    row = DB.fetchone()
-    print """\
-Title: %s
-Description: %s
-Max Grade: %s""" % (row[0], row[1], row[2])
+    project_info = DB.fetchall()
+    return project_info
 
 
 def get_project_grade(student, project):
